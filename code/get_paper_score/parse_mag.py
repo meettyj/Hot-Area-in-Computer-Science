@@ -25,7 +25,7 @@ from pyspark.sql import SparkSession
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: parse_mag <file> <output_file>", file=sys.stderr)
+        print("Usage: parse_mag <intput_dir> <output_dir>", file=sys.stderr)
         sys.exit(-1)
 
 
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     # Loads in input file. It should be in format of:
     #     Json record
 
-    df = spark.read.json(sys.argv[1])
+    df = spark.read.json(f"{sys.argv[1]}/*json")
 
     #df.printSchema()
 
