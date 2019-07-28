@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     inner_join_res.printSchema()
 
-    print(f"count : {inner_join_res.count()}")
+    print("count : {}".format(inner_join_res.count()))
 
     inner_join_res.write.json(sys.argv[3])
 
