@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
     mag_data.printSchema()
 
-    inner_join_res = arxiv_data.join(mag_data, arxiv_data.title == mag_data.title)
+    inner_join_res = arxiv_data.join(mag_data, arxiv_data.title == mag_data.title).drop(mag_data.title)
 
     inner_join_res.printSchema()
 
