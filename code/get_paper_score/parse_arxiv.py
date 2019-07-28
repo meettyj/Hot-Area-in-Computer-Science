@@ -15,18 +15,10 @@
 # limitations under the License.
 #
 
-"""
-This is an example implementation of PageRank. For more conventional use,
-Please refer to PageRank implementation provided by graphx
-
-Example Usage:
-bin/spark-submit examples/src/main/python/pagerank.py data/mllib/pagerank_data.txt 10
-"""
 from __future__ import print_function
 
-import re
 import sys
-from operator import add
+
 
 from pyspark.sql import SparkSession
 

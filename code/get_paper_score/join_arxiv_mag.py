@@ -15,17 +15,19 @@
 # limitations under the License.
 #
 
-
 from __future__ import print_function
 
 import sys
 
+
+#
 from pyspark.sql import SparkSession
+
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: parse_mag <file> <output_file>", file=sys.stderr)
+        print("Usage: parse_arxiv <arxiv_dir> <mag_dir> <output_dir>", file=sys.stderr)
         sys.exit(-1)
 
 
@@ -38,14 +40,20 @@ if __name__ == "__main__":
     # Loads in input file. It should be in format of:
     #     Json record
 
-    df = spark.read.json(sys.argv[1])
+    arxiv_data = spark.read.json(f"{sys.argv[1]}/*json")
 
-    #df.printSchema()
+    mag_data = spark.read.json(f"{sys.argv[2]}/*json")
 
-    parse_record = df.select(df['title'], df['year'], df['n_citation'])
+    arxiv_data.printSchema()
 
-    parse_record.printSchema()
+    mag_data.printSchema()
 
-    parse_record.write.json(sys.argv[2])
+    inner_join_res = arxiv_data.join(mag_data, arxiv_data.title == mag_data.title)
+
+    inner_join_res.printSchema()
+
+    print(f"count : {inner_join_res.count()}")
+
+    inner_join_res.write.json(sys.argv[3])
 
     spark.stop()
