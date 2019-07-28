@@ -26,7 +26,7 @@ from pyspark.sql import SparkSession
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         print("Usage: parse_arxiv <arxiv_dir> <mag_dir> <output_dir>", file=sys.stderr)
         sys.exit(-1)
 
