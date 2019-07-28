@@ -38,7 +38,9 @@ if __name__ == "__main__":
     # Loads in input file. It should be in format of:
     #     Json record
 
-    df = spark.read.json(f"{sys.argv[1]}")
+    path = "{}/*json".format(sys.argv[1])
+
+    df = spark.read.json()
 
     #df.printSchema()
 
