@@ -48,6 +48,10 @@ if __name__ == "__main__":
 
     df = spark.read.json(sys.argv[1])
 
-    df.show()
+    df.printSchema()
+
+    parse_record = df.select(df['title'], df['categories'])
+
+    parse_record.show()
 
     spark.stop()
