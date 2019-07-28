@@ -46,11 +46,11 @@ if __name__ == "__main__":
 
     df = spark.read.json(sys.argv[1])
 
-    df.printSchema()
+    #df.printSchema()
 
     parse_record = df.select(df['title'], df['year'], df['n_citation'])
 
-    parse_record.show()
+    parse_record.printSchema()
 
     parse_record.write.json(sys.argv[2])
 
