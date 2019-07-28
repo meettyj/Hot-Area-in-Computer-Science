@@ -48,10 +48,10 @@ if __name__ == "__main__":
 
     df.printSchema()
 
-    #parse_record = df.select(df['title'], df['categories'])
+    parse_record = df.select(df['title'], df['year'], df['n_citation'])
 
-    #parse_record.show()
+    parse_record.show()
 
-    #parse_record.write.json(sys.argv[2])
+    parse_record.write.json(sys.argv[2])
 
     spark.stop()
