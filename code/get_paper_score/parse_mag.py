@@ -38,7 +38,7 @@ if __name__ == "__main__":
     # Loads in input file. It should be in format of:
     #     Json record
 
-    path = "{}/*json".format(sys.argv[1])
+    path = "{}/*txt".format(sys.argv[1])
 
     df = spark.read.json(path)
 
