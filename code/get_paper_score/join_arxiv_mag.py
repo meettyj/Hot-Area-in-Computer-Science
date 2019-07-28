@@ -40,9 +40,13 @@ if __name__ == "__main__":
     # Loads in input file. It should be in format of:
     #     Json record
 
-    arxiv_data = spark.read.json(f"{sys.argv[1]}/*json")
+    arxiv_path = "{}/*json".format(sys.argv[1])
 
-    mag_data = spark.read.json(f"{sys.argv[2]}/*json")
+    mag_path = "{}/*json".format(sys.argv[2])
+
+    arxiv_data = spark.read.json(arxiv_path)
+
+    mag_data = spark.read.json(mag_path)
 
     arxiv_data.printSchema()
 

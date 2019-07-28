@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     path = "{}/*json".format(sys.argv[1])
 
-    df = spark.read.json()
+    df = spark.read.json(path)
 
     #df.printSchema()
 
