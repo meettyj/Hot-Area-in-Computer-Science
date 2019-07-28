@@ -32,8 +32,8 @@ from pyspark.sql import SparkSession
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: parse_arxiv <file> ", file=sys.stderr)
+    if len(sys.argv) != 3:
+        print("Usage: parse_arxiv <file> <output_file>", file=sys.stderr)
         sys.exit(-1)
 
 
@@ -53,5 +53,7 @@ if __name__ == "__main__":
     parse_record = df.select(df['title'], df['categories'])
 
     parse_record.show()
+
+    parse_record.write.json(sys.argv[2])
 
     spark.stop()
