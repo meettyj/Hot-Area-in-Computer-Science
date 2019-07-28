@@ -47,7 +47,8 @@ if __name__ == "__main__":
     join_res.printSchema()
 
     category_year_score = join_res.withColumn("category", functions.explode(functions.col("categories"))) \
-                        .groupBy("category", "year").sum("n_citation").alias("paper_score")
+                        .groupBy("category", "year").sum("n_citation") \
+                        .withColumnRenamed("sum(n_citation)", "paper_score")
 
     print("count : {}".format(category_year_score.count()))
 
