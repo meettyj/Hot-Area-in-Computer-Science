@@ -1,0 +1,5 @@
+ create external table AuthorInfo (name string, h_index int, n_pubs int, tags string, n_citation int, orgs bigint)
+ row format delimited fields terminated by ','
+ location '/user/yourNetId/hiveInput/';
+ select * from AuthorInfo;
+ describe AuthorInfo;
