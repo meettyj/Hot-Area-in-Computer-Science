@@ -1,11 +1,12 @@
 import java.io.IOException;
 import java.util.*; 
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 public class DataCleanerReducer
-extends Reducer<Text, Text, Text, Text> {
-public void reduce(Text key, Text value, Context context)
+extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
+@Override
+public void reduce(Text key, Iterable<DoubleWritable> values, Context context)
 throws IOException, InterruptedException {
     //String line = value.toString();
 	//context.write(key, new Text(getName(line)));
@@ -14,7 +15,11 @@ throws IOException, InterruptedException {
 	//context.write(key, new Text(getTags(line)));
 	//context.write(key, new Text(getNcitation(line)));
 	//context.write(key, new Text(getOrgs(line)));
-	context.write(key, value);
+	double v = 0.0;
+    for (DoubleWritable value : values) {
+        v += value.get();
+    }
+	context.write(key, new DoubleWritable(v));
 }
 // get name
 public String getName(String line){

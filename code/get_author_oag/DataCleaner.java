@@ -1,5 +1,5 @@
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -13,12 +13,13 @@ System.exit(-1);
 Job job = new Job();
 job.setJarByClass(DataCleaner.class);
 job.setJobName("Data Cleaner");
-FileInputFormat.addInputPath(job, new Path(args[0]));
+FileInputFormat.addInputPaths(job, args[0]);
 FileOutputFormat.setOutputPath(job, new Path(args[1]));
 job.setMapperClass(DataCleanerMapper.class);
 job.setReducerClass(DataCleanerReducer.class);
+job.setNumReduceTasks(1); 
 job.setOutputKeyClass(Text.class);
-job.setOutputValueClass(Text.class);
+job.setOutputValueClass(DoubleWritable.class);
 System.exit(job.waitForCompletion(true) ? 0 : 1);
 }
 }
