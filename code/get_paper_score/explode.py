@@ -42,12 +42,10 @@ if __name__ == "__main__":
 
     join_res = spark.read.json(join_res_path)
 
-    output = join_res.select(
-        "year", "n_citation","title", "authors",
-        f.posexplode(f.split("categories", " ")).alias("pos", "cate"))
 
-    output = output.withColumn("author", functions.explode(functions.col("authors")))
-
+    output = join_res.withColumn("author", functions.explode(functions.col("authors")))\
+                .withColumn("category", functions.explode(functions.col("categories")))
+    
     output.printSchema()
 
 
