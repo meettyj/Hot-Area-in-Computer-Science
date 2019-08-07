@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     #df.printSchema()
 
-    parse_record = df.select(df['title'], df['year'], df['n_citation'])
+    parse_record = df.select(df['title'], df['year'], df['n_citation'], df['authors'])
 
     parse_record.printSchema()
 
