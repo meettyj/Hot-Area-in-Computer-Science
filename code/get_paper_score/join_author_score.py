@@ -18,14 +18,17 @@
 from __future__ import print_function
 
 import sys
-import pyspark.sql.functions as f
+
 
 #
-from pyspark.sql import SparkSession, functions
+from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType, StructField
+from pyspark.sql.types import DoubleType, IntegerType, StringType
+
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: parse_arxiv <input> <output_dir>", file=sys.stderr)
+    if len(sys.argv) != 4:
+        print("Usage: parse_arxiv <explode_res> <author_score> <output_dir>", file=sys.stderr)
         sys.exit(-1)
 
 
@@ -38,21 +41,26 @@ if __name__ == "__main__":
     # Loads in input file. It should be in format of:
     #     Json record
 
-    join_res_path = "{}/*json".format(sys.argv[1])
+    explode_path = "{}/*json".format(sys.argv[1])
 
-    join_res = spark.read.json(join_res_path)
+    explode_data = spark.read.json(explode_path)
 
+    schema = StructType([
+        StructField("id", StringType()),
+        StructField("name", StringType()),
+        StructField("author_score", DoubleType())
+    ])
 
-    output = join_res.withColumn("author", functions.explode(functions.col("authors")))\
-                .withColumn("category", functions.explode(functions.col("categories")))
+    author_score = spark.read.csv(sys.argv[2], schema=schema, delimiter = ',')
 
-    output = output.select("author.name", "year", "n_citation", "title",
-                           f.posexplode(f.split("category", " ")).alias("pos", "cate"))
+    author_score.printSchema()
 
+    inner_join_res = explode_data.join(author_score, explode_data.name == author_score.name).drop(author_score.name)
 
-    output.printSchema()
+    inner_join_res.printSchema()
 
+    print("count : {}".format(inner_join_res.count()))
 
-    output.write.json(sys.argv[2])
+    inner_join_res.write.json(sys.argv[3])
 
     spark.stop()
