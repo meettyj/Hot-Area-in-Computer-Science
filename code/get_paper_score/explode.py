@@ -21,9 +21,7 @@ import sys
 import pyspark.sql.functions as f
 
 #
-from pyspark.sql import SparkSession
-
-
+from pyspark.sql import SparkSession, functions
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
@@ -45,11 +43,10 @@ if __name__ == "__main__":
     join_res = spark.read.json(join_res_path)
 
     output = join_res.select(
-        "year", "n_citation","title",
-        f.posexplode(f.split("categories", " ")).alias("pos", "cate"),
-        f.posexplode(f.split("authors", " ")).alias("pos", "author"))
+        "year", "n_citation","title", "authors",
+        f.posexplode(f.split("categories", " ")).alias("pos", "cate"))
 
-    output = output.select("year", "n_citation","title", "cate", "author.name")
+    output = output.withColumn("author", functions.explode(functions.col("authors")))
 
     output.printSchema()
 
