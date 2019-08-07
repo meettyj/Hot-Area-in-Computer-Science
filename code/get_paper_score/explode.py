@@ -46,7 +46,9 @@ if __name__ == "__main__":
     output = join_res.withColumn("author", functions.explode(functions.col("authors")))\
                 .withColumn("category", functions.explode(functions.col("categories")))
 
-    output = output.select("author.name", "year", "n_citation", "title", "category")
+    output = output.select("author.name", "year", "n_citation", "title",
+                           f.posexplode(f.split("category", " ")).alias("pos", "cate"))
+    
 
     output.printSchema()
 
