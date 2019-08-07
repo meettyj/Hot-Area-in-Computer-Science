@@ -51,7 +51,7 @@ if __name__ == "__main__":
         StructField("author_score", DoubleType())
     ])
 
-    author_score = spark.read.csv(sys.argv[2], schema=schema, delimiter = ',')
+    author_score = spark.read.csv(sys.argv[2], schema=schema)
 
     author_score.printSchema()
 
