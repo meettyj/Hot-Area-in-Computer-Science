@@ -44,14 +44,14 @@ if __name__ == "__main__":
 
     input = spark.read.json(input_path)
 
-    input = input.select(
+    output = input.select(
         "year", "paper_score",
         f.posexplode(f.split("category", " ")).alias("pos", "cate")) \
         .groupBy("cate", "year").sum("paper_score") \
         .withColumnRenamed("sum(paper_score)", "paper_score")
 
-    input.printSchema()
+    output.printSchema()
 
-    input.write.json(sys.argv[2])
+    output.write.json(sys.argv[2])
 
     spark.stop()
