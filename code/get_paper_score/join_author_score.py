@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     author_score.printSchema()
 
-    inner_join_res = explode_data.join(author_score, explode_data.name == author_score.name).drop(author_score.name)
+    inner_join_res = explode_data.join(author_score, explode_data.id == author_score.id).drop(author_score.id)
 
     inner_join_res.printSchema()
 
